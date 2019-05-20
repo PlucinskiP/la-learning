@@ -3,7 +3,7 @@ import requests
 import sys
 import time
 import os
-import json
+
 
 
 city = sys.argv[1]
@@ -19,8 +19,8 @@ def get_weather(loc):
 
 while(True):
     full = get_weather(city)
-    m = full["main"]
-    h = (m["humidity"])
+    m = full['main']
+    h = (m['humidity'])
     print(h)
     if h < 80:
         os.system("echo humidity below 80")
