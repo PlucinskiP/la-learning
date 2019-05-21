@@ -8,7 +8,7 @@ import os
 
 city = sys.argv[1]
 interval = int(sys.argv[2])
-
+os.system('echo hello hello >humidity.txt')
 #print(city)
 #print(interval)
 
@@ -23,9 +23,7 @@ while(True):
     h = (m['humidity'])
     print(h)
     if h < 80:
-        os.system("echo humidity below 80")
-
-
+        os.system("cat humidity.txt | wall")
     time.sleep(interval)
 
 
