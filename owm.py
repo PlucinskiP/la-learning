@@ -1,6 +1,6 @@
 #!/home/pawel/PycharmProjects/openweathermap/venv/bin/python
 import requests
-import sys
+#import sys
 import time
 import os
 

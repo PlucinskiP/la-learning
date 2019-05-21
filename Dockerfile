@@ -1,7 +1,9 @@
-FROM python:3
+FROM python:alpine3.7
 
-ADD my_script.py /
+ADD owm.py /
 
-RUN pip install pystrich
+ADD variable.txt /
+
+RUN pip install -r requirements.txt
 
 CMD [ "python", "./owm.py" ]
