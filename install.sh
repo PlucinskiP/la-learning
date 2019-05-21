@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-cat > dockerfile << EOF
+cat > Dockerfile << EOF
 FROM python:alpine3.7
 
 ADD owm.py /
