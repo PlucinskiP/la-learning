@@ -1,3 +1,6 @@
-Quali test
-yum install git -y
-https://github.com/PlucinskiP/openweathermap.git
+* Test task.
+
+* Install
+
+`<addr>`yum install git -y
+`<addr>`git clone https://github.com/PlucinskiP/openweathermap.git
