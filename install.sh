@@ -3,7 +3,9 @@
 cat > Dockerfile << EOF
 FROM python:alpine3.7
 
-ADD owm.py /
+COPY owm.py .
+
+COPY requirements.txt .
 
 RUN pip install -r requirements.txt
 
