@@ -1,0 +1,56 @@
+pipeline{
+    agent any
+
+    parameters {
+        string(defaultValue: 'master', description: 'numer tagu np. refs/tags/1.0.3 bądź branch np. master', name: 'inventory_tag')
+        string(defaultValue: 'master', description: 'numer tagu np. refs/tags/1.0.0 bądź branch np. master', name: 'role_tag')
+        choice(name: 'playbook', choices: ['reaport.yml', 'proxy_all.yml', 'proxy_nginx.yml', 'proxy_socat.yml'], description: 'Wybierz playbook')
+        choice(name: 'limit', choice: ['proxy-mentax.tuw.pl', 'proxy-altkom.tuw.pl', 'proxy-apreel.tuw.pl', 'proxy-britenet.tuw.pl', 'proxy-decerto.tuw.pl', 'proxy-ecom.tuw.pl', 'proxy-estimates.tuw.pl'], description: 'Wybierz serwer' )
+        string(defaultValue: '--check', description: 'extra parameters np. --check, --list-hosts', name: 'extra'
+    }
+
+    environment {
+        inventory = 'l1'
+        role = 'reverseproxy'
+    }
+
+    options {
+        timeout(time: 10, unit: 'MINUTES')
+        disableConcurrentBuilds()
+    }
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                script {
+                    cleanWs()
+                    
+                    def workspace = pwd()
+                    sh "mkdir inventory"
+                    dir ("${workspace}/inventory") {
+                            sh 'printenv'
+                        }
+                    }
+                    sh "mkdir playbook"
+                    dir ("${workspace}/playbook") {
+                            sh 'printenv'
+                        }
+                             
+                    }
+                } 
+            }
+        }
+        
+        stage('Execute Ansible') {
+            steps {
+                sh "echo ansiblePlaybook become: true, colorized: true, credentialsId: 'jenkins-dev', disableHostKeyChecking: true, extras: '${extra}', installation: 'ansible-2.9.14', inventory: 'inventory/inventory', limit: '${limit}', playbook: 'playbook/${playbook}',  vaultCredentialsId: 'ansible-vault-${inventory}'"
+            }
+        }
+
+        stage('Copy reaport') {
+            steps {
+                sh 'printenv'
+            }
+        }
+    }
+}
