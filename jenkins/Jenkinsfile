@@ -27,15 +27,6 @@ pipeline{
                     
                     def workspace = pwd()
                     sh "mkdir inventory"
-                    dir ("${workspace}/inventory") {
-                            sh 'printenv'
-                        }
-                    }
-                    sh "mkdir playbook"
-                    dir ("${workspace}/playbook") {
-                            sh 'printenv'
-                        }
-                             
                     }
                 } 
             }
