@@ -29,7 +29,7 @@ pipeline{
                     def repo_url = 'https://github.com/PlucinskiP/${inventory}.git'
                     sh "mkdir inventory"
                     dir ("${workspace}/inventory") {
-                        checkout([$class: 'GitSCM', branches: [[name: '${inventory_tag}']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], submoduleCfg: [], userRemoteConfigs: [[url: ${repo_url} ]]])
+                        checkout([$class: 'GitSCM', branches: [[name: '${inventory_tag}']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], submoduleCfg: [], userRemoteConfigs: [[url: "${repo_url}" ]]])
 
                     }
                     sh "mkdir playbook"
