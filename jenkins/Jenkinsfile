@@ -36,7 +36,6 @@ pipeline{
                         checkout([$class: 'GitSCM', branches: [[name: '${role_tag}']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '0001', url: 'git@github.com:PlucinskiP/${role}.git']]])
 
                     }
-
                 }
             }
         }
@@ -51,8 +50,12 @@ pipeline{
             steps {
                 sh 'printenv'
                 def workspace = pwd()
-                archiveArtifacts artifacts: '${workspace}/${inventory}/tmp/reaport.csv', fingerprint: true
             }
+        }
+    }
+    post {
+        always {
+            archiveArtifacts artifacts: '${workspace}/${inventory}/tmp/reaport.csv', fingerprint: true
         }
     }
 }
