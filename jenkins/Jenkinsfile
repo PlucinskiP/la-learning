@@ -2,19 +2,19 @@ pipeline{
     agent any
 
     parameters {
-    //    string(name: 'inventory', defaultValue: 'la-learning', description: 'Inventory')
+        string(name: 'inventory', defaultValue: 'la-learning', description: 'Inventory')
         string(defaultValue: 'jenkins', description: 'numer tagu, bądź branch np. development', name: 'inventory_tag')
-    //    choice(name: 'role', choices: ['reverseproxy'], description: 'playbook' )
+        choice(name: 'role', choices: ['reverseproxy'], description: 'playbook' )
         string(defaultValue: 'master', description: 'numer tagu, bądź branch np. development', name: 'role_tag')
         choice(name: 'playbook', choices: ['reaport.yml', 'proxy_all.yml', 'proxy_nginx.yml', 'proxy_socat.yml'], description: 'Wybierz playbook')
         choice(name: 'limit', choices: ['cent_3', 'cent_2'], description: 'Wybierz serwer' )
         string(defaultValue: '--check', description: 'extra parameters np. --check, --list-hosts', name: 'extra')
     }
 
-    environment {
-        inventory = 'la-learning'
-        role = 'reverseproxy'
-    }
+    // environment {
+    //     inventory = 'la-learning'
+    //     role = 'reverseproxy'
+    // }
 
     options {
         timeout(time: 10, unit: 'MINUTES')
