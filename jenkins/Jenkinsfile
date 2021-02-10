@@ -49,7 +49,6 @@ pipeline{
         stage('Copy reaport') {
             steps {
                 sh 'printenv'
-                def workspace = pwd()
             }
         }
     }
