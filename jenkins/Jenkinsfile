@@ -2,7 +2,7 @@ pipeline{
     agent any
 
     parameters {
-        string(defaultValue: 'master', description: 'numer tagu, bądź branch np. development', name: 'inventory_tag')
+        string(defaultValue: 'jenkins', description: 'numer tagu, bądź branch np. development', name: 'inventory_tag')
         string(defaultValue: 'master', description: 'numer tagu, bądź branch np. development', name: 'role_tag')
         choice(name: 'playbook', choices: ['reaport.yml', 'proxy_all.yml', 'proxy_nginx.yml', 'proxy_socat.yml'], description: 'Wybierz playbook')
         choice(name: 'limit', choices: ['cent_3', 'cent_2'], description: 'Wybierz serwer' )
@@ -28,12 +28,12 @@ pipeline{
                     def workspace = pwd()
                     sh "mkdir inventory"
                     dir ("${workspace}/inventory") {
-                        checkout([$class: 'GitSCM', branches: [[name: '${inventory_tag}']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '0001', url: 'git@github.com:PlucinskiP/${inventory}.git']]])
+                        checkout([$class: 'GitSCM', branches: [[name: '${inventory_tag}']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/PlucinskiP/${inventory}.git']]])
 
                     }
                     sh "mkdir playbook"
                     dir ("${workspace}/playbook") {
-                        checkout([$class: 'GitSCM', branches: [[name: '${role_tag}']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '0001', url: 'git@github.com:PlucinskiP/${role}.git']]])
+                        checkout([$class: 'GitSCM', branches: [[name: '${role_tag}']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '0001', url: 'https://github.com/PlucinskiP/${role}.git']]])
 
                     }
                 }
