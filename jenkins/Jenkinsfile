@@ -35,8 +35,6 @@ pipeline{
                     dir ("${workspace}/playbook") {
                         checkout([$class: 'GitSCM', branches: [[name: '${role_tag}']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '0001', url: 'git@github.com:PlucinskiP/${role}.git']]])
 
-                        }
-                             
                     }
 
                 }
