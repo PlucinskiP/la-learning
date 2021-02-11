@@ -53,4 +53,5 @@ pipeline{
             archiveArtifacts artifacts: 'playbook/*/tmp/reaport.csv', followSymlinks: false
             }
         }
+    }
 }
