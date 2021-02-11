@@ -44,7 +44,7 @@ pipeline{
         
         stage('Execute Ansible') {
             steps {
-                sh "ansiblePlaybook become: true, colorized: true, credentialsId: 'ansible_key', disableHostKeyChecking: true, extras: '${extra}', installation: 'ansible-2.9.14', inventory: 'inventory/inventory', limit: '${limit}', playbook: 'playbook/${playbook}'"
+                ansiblePlaybook become: true, colorized: true, credentialsId: 'ansible_key', disableHostKeyChecking: true, extras: '${extra}', installation: 'ansible-2.9.14', inventory: 'inventory/inventory', limit: '${limit}', playbook: 'playbook/${playbook}'
             }
         }
 
