@@ -48,7 +48,7 @@ pipeline{
                 sh 'printenv'
             }
         }
-        stage('Copy reaport') {
+        stage('archive reaport') {
             steps {
             archiveArtifacts artifacts: '/${inventory}/${limit}/tmp/reaport.csv', followSymlinks: false
             }
