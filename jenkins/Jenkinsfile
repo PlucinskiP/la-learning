@@ -50,13 +50,13 @@ pipeline{
         }
         stage('archive reaport') {
             steps {
-            archiveArtifacts artifacts: '/${inventory}/${limit}/tmp/reaport.csv', followSymlinks: false
+            archiveArtifacts artifacts: '*/*/tmp/reaport.csv', followSymlinks: false
             }
         }
     }
     post {
         always {
-            archiveArtifacts artifacts: '/${inventory}/${limit}/tmp/reaport.csv', fingerprint: true
+            archiveArtifacts artifacts: '*/*/tmp/reaport.csv', fingerprint: true
         }
     }
 }
