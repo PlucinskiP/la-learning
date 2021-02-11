@@ -50,7 +50,7 @@ pipeline{
         }
         stage('archive reaport') {
             steps {
-            archiveArtifacts artifacts: '/playbook/*/tmp/reaport.csv', followSymlinks: false
+            archiveArtifacts artifacts: '/playbook/cent_3/tmp/reaport.csv', followSymlinks: false
             }
         }
     }
