@@ -1,5 +1,7 @@
 pipeline{
-    agent any
+    agent {
+        docker {image 'ansible/ansible-runner:1.4.6'}
+    }
 
     parameters {
         string(name: 'inventory', defaultValue: 'la-learning', description: 'Inventory')
