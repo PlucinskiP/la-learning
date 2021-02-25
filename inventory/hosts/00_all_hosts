@@ -1,0 +1,4 @@
+### LA ###
+cent_1                  ansible_host=73773653601c.mylabserver.com
+cent_2                  ansible_host=6ed46492a41c.mylabserver.com
+cent_3                  ansible_host=ac65208a761c.mylabserver.com

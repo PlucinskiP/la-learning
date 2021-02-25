@@ -1,0 +1,57 @@
+pipeline{
+    agent any
+
+    parameters {
+        string(name: 'inventory', defaultValue: 'la-learning', description: 'Inventory')
+        string(defaultValue: 'jenkins', description: 'numer tagu, bądź branch np. development', name: 'inventory_tag')
+        choice(name: 'role', choices: ['reverseproxy'], description: 'playbook' )
+        string(defaultValue: 'master', description: 'numer tagu, bądź branch np. development', name: 'role_tag')
+        choice(name: 'playbook', choices: ['reaport.yml', 'proxy_all.yml', 'proxy_nginx.yml', 'proxy_socat.yml'], description: 'Wybierz playbook')
+        choice(name: 'limit', choices: ['cent_3', 'cent_2'], description: 'Wybierz serwer' )
+        string(defaultValue: '--check', description: 'extra parameters np. --check, --list-hosts', name: 'extra')
+    }
+
+    options {
+        timeout(time: 10, unit: 'MINUTES')
+        disableConcurrentBuilds()
+    }
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                script {
+                    cleanWs()
+                    
+                    def workspace = pwd()
+                    sh "mkdir inventory"
+                    dir ("${workspace}/inventory") {
+                        checkout([$class: 'GitSCM', branches: [[name: '*/${inventory_tag}']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/PlucinskiP/${inventory}.git']]])
+
+                    }
+                    sh "mkdir playbook"
+                    dir ("${workspace}/playbook") {
+                        checkout([$class: 'GitSCM', branches: [[name: '${role_tag}']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/PlucinskiP/${role}.git']]])
+
+                    }
+                }
+            }
+        }
+        
+        stage('Execute Ansible') {
+            steps {
+                ansiblePlaybook become: true, colorized: true, credentialsId: 'ansible_key', disableHostKeyChecking: true, extras: '${extra}', installation: 'ansible-2.9.14', inventory: 'inventory/inventory', limit: '${limit}', playbook: 'playbook/${playbook}'
+            }
+        }
+
+        stage('print envs') {
+            steps {
+                sh 'printenv'
+            }
+        }
+        stage('archive reaport') {
+            steps {
+            archiveArtifacts artifacts: 'playbook/*/tmp/reaport.csv', followSymlinks: false
+            }
+        }
+    }
+}
