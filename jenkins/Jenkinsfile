@@ -1,7 +1,5 @@
 pipeline{
-    agent {
-        docker {image 'ansible/ansible-runner:1.4.6'}
-    }
+    agent any
 
     parameters {
         string(name: 'inventory', defaultValue: 'la-learning', description: 'Inventory')
@@ -40,6 +38,9 @@ pipeline{
         }
         
         stage('Execute Ansible') {
+            agent {
+                docker { image 'ansible/ansible-runner:1.4.6' }
+            }
             steps {
                 ansiblePlaybook become: true, colorized: true, credentialsId: 'ansible_key', disableHostKeyChecking: true, extras: '${extra}', installation: 'ansible-2.9.14', inventory: 'inventory/inventory', limit: '${limit}', playbook: 'playbook/${playbook}'
             }
