@@ -43,6 +43,7 @@ pipeline{
                     image 'ansible/ansible-runner:1.4.6' 
                     args '-u 0:0'
                     }
+            }
             steps {
                 sh 'ls -al'
                 sh 'pwd'
