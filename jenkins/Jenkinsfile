@@ -43,9 +43,13 @@ pipeline{
                 }
             }
             steps {
-                sh 'ls -al'
-                sh 'pwd'
-                ansiblePlaybook become: true, colorized: true, credentialsId: 'ansible_key', disableHostKeyChecking: true, extras: '${extra}', installation: 'ansible-2.9.14', inventory: 'inventory/inventory', limit: '${limit}', playbook: 'playbook/${playbook}'
+                script {
+                    dir ("${workspace}") {
+                        sh 'ls -al'
+                        sh 'pwd'
+                        ansiblePlaybook become: true, colorized: true, credentialsId: 'ansible_key', disableHostKeyChecking: true, extras: '${extra}', installation: 'ansible-2.9.14', inventory: 'inventory/inventory', limit: '${limit}', playbook: 'playbook/${playbook}'
+                    }
+                }
             }
         }
 
