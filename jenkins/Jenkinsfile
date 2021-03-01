@@ -18,6 +18,12 @@ pipeline{
     
     stages {
         stage('Checkout') {
+            agent {
+                docker {
+                    image 'ansible/ansible-runner:1.4.6' 
+                    args '-u 0:0'
+                    }
+            }
             steps {
                 script {
                     cleanWs()
@@ -26,13 +32,14 @@ pipeline{
                     sh "mkdir inventory"
                     dir ("${workspace}/inventory") {
                         checkout([$class: 'GitSCM', branches: [[name: '*/${inventory_tag}']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/PlucinskiP/${inventory}.git']]])
-
                     }
                     sh "mkdir playbook"
                     dir ("${workspace}/playbook") {
                         checkout([$class: 'GitSCM', branches: [[name: '${role_tag}']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/PlucinskiP/${role}.git']]])
-
                     }
+                    sh 'ls -al'
+                    sh 'pwd'
+                    ansiblePlaybook become: true, colorized: true, credentialsId: 'ansible_key', disableHostKeyChecking: true, extras: '${extra}', installation: 'ansible-2.9.14', inventory: 'inventory/inventory', limit: '${limit}', playbook: 'playbook/${playbook}'
                 }
             }
         }
