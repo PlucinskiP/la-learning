@@ -37,7 +37,7 @@ pipeline{
         stage('Execute Ansible') {
             agent {
                 docker {
-                    image 'ansible/ansible-runner:1.4.6' 
+                    image 'ansible/ansible-runner:1.4.6'        
                     args '-u 0:0'
                     reuseNode true
                 }
@@ -61,7 +61,8 @@ pipeline{
         stage('archive reaport') {
             steps {
             archiveArtifacts artifacts: 'playbook/*/tmp/reaport.csv', followSymlinks: false
-            sh "sudo chmod -R 777 playbook"      }
+            sh "sudo chmod -R 777 playbook"      
+            }
         }
     }
 }
