@@ -21,13 +21,13 @@ pipeline{
             steps {
                 
                 cleanWs()
-                def workspace = pwd()
+
                 sh "mkdir inventory"
-                dir ("${workspace}/inventory") {
+                dir ("${WORKSPACE}/inventory") {
                     checkout([$class: 'GitSCM', branches: [[name: '*/${inventory_tag}']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/PlucinskiP/${inventory}.git']]])
                 }
                 sh "mkdir playbook"
-                dir ("${workspace}/playbook") {
+                dir ("${WORKSPACE}/playbook") {
                     checkout([$class: 'GitSCM', branches: [[name: '${role_tag}']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/PlucinskiP/${role}.git']]])
                 }
                 
@@ -44,7 +44,7 @@ pipeline{
             }
             steps {
                 
-                dir ("${workspace}") {
+                dir ("${WORKSPACE}") {
                     sh 'ls -al'
                     sh 'pwd'
                     ansiblePlaybook become: true, colorized: true, credentialsId: 'ansible_key', disableHostKeyChecking: true, extras: '${extra}', installation: 'ansible-2.9.14', inventory: 'inventory/inventory', limit: '${limit}', playbook: 'playbook/${playbook}'
