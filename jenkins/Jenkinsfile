@@ -61,7 +61,8 @@ pipeline{
         stage('archive reaport') {
             steps {
             archiveArtifacts artifacts: 'playbook/*/tmp/reaport.csv', followSymlinks: false
-            sh "chmod -R 777 playbook"      }
+            sh "sudo -i"
+            sh "sudo chmod -R 777 playbook"      }
         }
     }
 }
